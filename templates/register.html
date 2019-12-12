@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>登録</title>
+</head>
+<body>
+	<h1>新規登録</h1>
+	<form action="/register" method="POST">
+		<label for="">ID：</label>
+		<input type="text" name="id" id="">
+		<label for="">Password：</label>
+		<input type="text" name="password" id="">
+		<input type="submit" value="登録">
+	</form>
+	<p>{{ .result }}</p>
+</body>
+</html>
