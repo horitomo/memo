@@ -15,6 +15,8 @@ type Person struct {
 }
 
 func main(){
+	str1 := [][]string{{"a","b"}}
+	fmt.Println(str1[0][1])
 	var userId string
 	model.DBInit()
 
@@ -79,8 +81,8 @@ func main(){
 	router.GET("/list",func(ctx *gin.Context){
 		judge := ""
 		if userId != judge{
-			memo := model.MemoSelect(userId)
-			ctx.HTML(200,"list.html",gin.H{"memo":memo})
+			memos := model.MemoSelect(userId)
+			ctx.HTML(200,"list.html",gin.H{"memos":memos})
 		}else {
 			ctx.Redirect(302,"/")
 		}
