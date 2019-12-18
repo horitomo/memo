@@ -8,7 +8,11 @@
 </head>
 <body>
 	<h1>メモ一覧</h1>
-	<p>{{ .memo }}</p>
+	<ul>
+	{{ range .memos }}
+		<li>{{ .Title }} {{ .Content }}</li>
+	{{ end }}
+	</ul>
 	<p><a href="/list/register">メモ登録</a></p>
 	<p><a href="/logout">ログアウト</a></p>
 </body>
