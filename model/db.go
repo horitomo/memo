@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"reflect"
 )
 
 // 引っ張ってきたデータ受け取り
@@ -39,7 +40,7 @@ func DBInsert(id ,password string){
 	ins.Exec(id, password)
 }
 
-func MemoSelect(id string)(string){
+func MemoSelect(id string)[]Memo{
 	//mysqlへ接続。ドライバ名（mysql）と、ユーザー名・データソース(ここではgosample)を指定。
 	db, err := sql.Open("mysql", "flow:flow@/gwa")
 	if err != nil {
@@ -47,6 +48,8 @@ func MemoSelect(id string)(string){
 	}
 	defer db.Close()
 
+	var memos []Memo
+	memo := Memo{}
 	//データベースへクエリを送信。引っ張ってきたデータがrowsに入る。
 	rows, err := db.Query("SELECT * FROM memo WHERE id = ?",id)
 	flag := false
@@ -54,22 +57,21 @@ func MemoSelect(id string)(string){
 	if err != nil {
 		panic(err.Error())
 	}
-
-	str := ""
-	var memo Memo //構造体Person型の変数personを定義
+	fmt.Println(reflect.TypeOf(rows))
 	for rows.Next() {
 		err := rows.Scan(&memo.ID, &memo.Title, &memo.Content)			
 		if err != nil {
 			panic(err.Error())
 		}
-		str = str + memo.Title + memo.Content
+		memos = append(memos, memo)
 		flag = true
 	}
+
 	if !flag {
 		fmt.Println("失敗")
-		str = "まだメモはありません"
 	}
-	return str
+	fmt.Println(memos)
+	return memos
 }
 
 func MemoInsert(id ,title,content string){
